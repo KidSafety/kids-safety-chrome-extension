@@ -10,6 +10,8 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.202",
+    "lodash": "^4.17.21",
     "plasmo": "0.84.2",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -30,6 +32,10 @@
     "host_permissions": [
       "https://*/*"
     ],
-    "permissions": ["scripting"]
+    "permissions": [
+      "scripting",
+      "tabs",
+      "activeTab"
+    ]
   }
 }
