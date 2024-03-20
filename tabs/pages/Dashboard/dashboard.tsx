@@ -1,13 +1,7 @@
 function DashboardPage() {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: 16
-      }}>
+    <div>
       <h2>DashboardPage</h2>
-
     </div>
   )
 }

@@ -1,6 +1,8 @@
-import { Route, MemoryRouter as Router, Routes } from 'react-router-dom';
-import Welcome from '~tabs/pages/Welcome/Welcome';
-import PageRoot from '../pages/PageRoot';
+import { Route, MemoryRouter as Router, Routes } from "react-router-dom"
+
+import Welcome from "~tabs/pages/Welcome/Welcome"
+
+import PageRoot from "../pages/PageRoot"
 
 export default function NewTabRouter() {
   return (
@@ -10,5 +12,5 @@ export default function NewTabRouter() {
         <Route path="/root/*" element={<PageRoot />} />
       </Routes>
     </Router>
-  );
+  )
 }

@@ -3,16 +3,23 @@ import ParentsAnalytics from "~components/ParentsAnalytics"
 
 import "./style.css"
 
+import { Fragment, useState } from "react"
+
+import SyncWithGoogle from "~components/SyncWithGoogle"
+
 function IndexPopup() {
+  const [signIn, setSignIn] = useState(false)
   return (
-    <div
-      style={{
-        padding: 16,
-        width: 250
-      }}>
-      <KidAnalytics />
-      <ParentsAnalytics />
-    </div>
+    <Fragment>
+      {signIn ? (
+        <div className="min-w-[580px] rounded-[10px] w-full overflow-hidden p-6">
+          <KidAnalytics />
+          <ParentsAnalytics />
+        </div>
+      ) : (
+        <SyncWithGoogle onSignIn={() => setSignIn(!signIn)} />
+      )}
+    </Fragment>
   )
 }
 
