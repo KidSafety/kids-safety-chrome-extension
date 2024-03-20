@@ -35,7 +35,7 @@ export default function ParentsAnalytics() {
           </label>
           <div className="relative w-full">
             <input
-              className="w-full h-[40px] border-[1px] border-[#B4B4B4] rounded-[8px] mt-1 pl-3 pr-8"
+              className="w-full h-[48px] border-[1px] border-[#B4B4B4] rounded-[8px] mt-1 pl-3 pr-8"
               id="password"
               type={hidePassword ? "password" : "text"}
               placeholder="Parent password"
