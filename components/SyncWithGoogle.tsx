@@ -1,6 +1,6 @@
+import googleImage from "data-base64:~assets/google.png"
 import profileImage from "data-base64:~assets/profile.png"
 import React from "react"
-import { FcGoogle } from "react-icons/fc"
 
 interface props {
   onSignIn: () => void
@@ -11,7 +11,11 @@ function SyncWithGoogle({ onSignIn }: props) {
     <div className="w-[519px]">
       <div className="w-full flex justify-between items-center rounded-[10px] border-b-[1px] text-center border-[#00000014] p-4">
         <div className="flex justify-start items-center gap-3">
-          <FcGoogle size={24} />
+          <img
+            src={googleImage}
+            alt="Profile image"
+            className="w-[24px] h-[24px] overflow-hidden rounded-full"
+          />
           <p className="font-medium text-[18px] text-black">
             Sign in with Google
           </p>

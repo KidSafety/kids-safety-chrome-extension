@@ -7,6 +7,7 @@ import "../style.css"
 import { useState } from "react"
 
 import SideNavigation from "~components/SideNavigation"
+import TopNavigation from "~components/TopNavigation"
 
 import DashboardPage from "./pages/Dashboard/dashboard"
 import FamilyMemberPage from "./pages/FamilyMember/familyMember"
@@ -23,6 +24,7 @@ export default function NewTabRouter() {
           toggleView={() => setCollapseNavigation(!isCollapseNavigation)}
         />
         <div>
+          <TopNavigation />
           <Routes>
             <Route path="/*" element={<Welcome />} />
             <Route path="/dashboard" element={<DashboardPage />} />
