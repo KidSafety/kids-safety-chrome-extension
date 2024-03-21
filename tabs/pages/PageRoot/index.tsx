@@ -1,13 +1,12 @@
+import { Route, Routes } from "react-router-dom"
+
+import Welcome from "../Welcome/Welcome"
+
 function PageRoot() {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: 16
-      }}>
-      <h2>PageRoot</h2>
-    </div>
+    <Routes>
+      <Route path="/*" element={<Welcome />} />
+    </Routes>
   )
 }
 
