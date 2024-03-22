@@ -3,6 +3,7 @@ import React, { Fragment, useState } from "react"
 import AddNewWebsiteModel from "~components/Models/AddNewWebsiteModel"
 import BlockConfirmationModel from "~components/Models/BlockConfirmationModel"
 import MonitoringHistory from "~components/Settings/MonitoringHistory"
+import Security from "~components/Settings/Security/Security"
 import SettingsTabs from "~components/Settings/SettingsTabs"
 import WebsiteManagement from "~components/Settings/WebsiteManagement"
 
@@ -87,6 +88,7 @@ function SettingsPage() {
         <SettingsTabs tabs={tabs} setTabs={setTabs} />
         {tabs === 0 && <MonitoringHistory />}
         {tabs === 1 && <WebsiteManagement />}
+        {tabs === 2 && <Security />}
       </div>
 
       {/* Add new website model */}
