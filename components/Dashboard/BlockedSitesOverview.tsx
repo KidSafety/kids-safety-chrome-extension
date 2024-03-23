@@ -62,13 +62,14 @@ function BlockedSitesOverview({}: Props) {
           arcLinkLabelsTextColor="#333333"
           arcLinkLabelsThickness={2}
           arcLinkLabelsColor={{ from: "color" }}
-          enableArcLabels={false}
-          arcLabelsRadiusOffset={0.35}
+          enableArcLabels={true}
+          arcLabelsRadiusOffset={0.5}
           arcLabelsSkipAngle={10}
           arcLabelsTextColor={{
             from: "color",
             modifiers: [["darker", 2]]
           }}
+          arcLabel={(arc) => `${arc?.data?.value}%`}
           defs={[
             {
               id: "dots",
