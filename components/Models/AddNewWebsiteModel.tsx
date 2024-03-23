@@ -1,5 +1,7 @@
 import React, { Fragment } from "react"
 
+import Cross from "~components/Icons/Cross"
+
 interface props {
   onClose: () => void
   onSuccess: () => void
@@ -23,20 +25,7 @@ function AddNewWebsiteModel({ onClose, onSuccess }: props) {
                 Add Website to Blocked List
               </h3>
               <button onClick={onClose}>
-                <svg
-                  width="32"
-                  height="32"
-                  viewBox="0 0 32 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M20.0003 11.9998L12.0003 19.9998M12.0003 11.9998L20.0003 19.9998M29.3337 15.9998C29.3337 23.3636 23.3641 29.3332 16.0003 29.3332C8.63653 29.3332 2.66699 23.3636 2.66699 15.9998C2.66699 8.63604 8.63653 2.6665 16.0003 2.6665C23.3641 2.6665 29.3337 8.63604 29.3337 15.9998Z"
-                    stroke="#666666"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <Cross />
               </button>
             </div>
             {/* Body */}
