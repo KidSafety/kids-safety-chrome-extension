@@ -4,7 +4,7 @@ interface props {
   onClose: () => void
 }
 
-function ChildAddConfirmModel({ onClose }: props) {
+function BlockConfirmationModel({ onClose }: props) {
   return (
     <Fragment>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -48,15 +48,16 @@ function ChildAddConfirmModel({ onClose }: props) {
                 />
               </svg>
               <h2 className="text-[20px] font-semibold text-[#999999] text-center mt-3">
-                Added Successfully!
+                Blocked Successfully!
               </h2>
-              <p className="mt-2 text-center text-sm text-[#666666]">
-                New child has been added successfully!
+              <p className="mt-2 text-center text-sm text-[#666666] max-w-[339px]">
+                <span className="text-[#1972F9]">www.facebook.com</span> site
+                has been added to the blocked list.
               </p>
               <button
                 onClick={onClose}
                 className="bg-[#194494] mx-auto max-w-[339px] whitespace-nowrap w-full h-[42px] text-white text-[16px] leading-[24px] text-lg rounded-[10px] mt-8">
-                Ok
+                View Blocked Lits
               </button>
             </div>
           </div>
@@ -67,4 +68,4 @@ function ChildAddConfirmModel({ onClose }: props) {
   )
 }
 
-export default ChildAddConfirmModel
+export default BlockConfirmationModel

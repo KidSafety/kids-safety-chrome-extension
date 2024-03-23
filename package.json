@@ -10,6 +10,8 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@nivo/bar": "^0.85.1",
+    "@nivo/pie": "^0.85.1",
     "@types/lodash": "^4.14.202",
     "lodash": "^4.17.21",
     "plasmo": "0.84.2",
