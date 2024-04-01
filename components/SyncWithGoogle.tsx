@@ -4,23 +4,21 @@ import React from "react"
 
 import Cross from "./Icons/Cross"
 
-interface props {
+interface ISyncWithGoogle {
   onSignIn: () => void
 }
 
-function SyncWithGoogle({ onSignIn }: props) {
+function SyncWithGoogle({ onSignIn }: Readonly<ISyncWithGoogle>) {
   return (
     <div className="w-[519px]">
       <div className="w-full flex justify-between items-center rounded-[10px] border-b-[1px] text-center border-[#00000014] p-4">
         <div className="flex justify-start items-center gap-3">
           <img
             src={googleImage}
-            alt="Profile image"
+            alt="img"
             className="w-[24px] h-[24px] overflow-hidden rounded-full"
           />
-          <p className="font-medium text-[18px] text-black">
-            Sign in with Google
-          </p>
+          <p className="font-medium text-[18px] text-black">Get started</p>
         </div>
         {/* Cross */}
         <button>
@@ -31,7 +29,7 @@ function SyncWithGoogle({ onSignIn }: props) {
         <div className=" flex justify-start items-center gap-4">
           <img
             src={profileImage}
-            alt="Profile image"
+            alt="img"
             className="w-[43px] h-[43px] overflow-hidden rounded-full"
           />
           <div>

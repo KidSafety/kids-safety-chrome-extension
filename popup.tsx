@@ -1,25 +1,36 @@
-import KidAnalytics from "~components/KidAnalytics"
-import ParentsAnalytics from "~components/ParentsAnalytics"
+import { useState } from "react"
 
 import "./style.css"
 
-import { Fragment, useState } from "react"
+import { ClerkProvider } from "@clerk/clerk-react"
 
+import KidAnalytics from "~components/KidAnalytics"
+import ParentsAnalytics from "~components/ParentsAnalytics"
 import SyncWithGoogle from "~components/SyncWithGoogle"
+import { CLERK_PUBLISHABLE_KEY } from "~lib/env"
 
-function IndexPopup() {
+function Popup() {
   const [signIn, setSignIn] = useState(false)
+  
   return (
-    <Fragment>
+    <>
       {signIn ? (
         <div className="min-w-[580px] rounded-[10px] w-full overflow-hidden p-6">
           <KidAnalytics />
           <ParentsAnalytics />
         </div>
       ) : (
-        <SyncWithGoogle onSignIn={() => setSignIn(!signIn)} />
+        <SyncWithGoogle onSignIn={() => setSignIn(true)} />
       )}
-    </Fragment>
+    </>
+  )
+}
+
+function IndexPopup() {
+  return (
+    <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>
+      <Popup />
+    </ClerkProvider>
   )
 }
 
