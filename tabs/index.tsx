@@ -1,12 +1,10 @@
 import "../style.css"
 
-import { ClerkProvider } from "@clerk/clerk-react"
 import { useState } from "react"
 import { Route, MemoryRouter as Router, Routes } from "react-router-dom"
 
 import SideNavigation from "~components/SideNavigation"
 import TopNavigation from "~components/TopNavigation"
-import { CLERK_PUBLISHABLE_KEY } from "~lib/env"
 import Welcome from "~tabs/pages/Welcome/Welcome"
 
 import PageRoot from "./pages/PageRoot"
@@ -16,7 +14,6 @@ export default function NewTabRouter() {
 
   return (
     <Router>
-      <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>
         <div
           className={`w-full grid ${
             isCollapseNavigation
@@ -35,7 +32,6 @@ export default function NewTabRouter() {
             </Routes>
           </div>
         </div>
-      </ClerkProvider>
     </Router>
   )
 }

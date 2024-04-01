@@ -17,7 +17,6 @@ function SideNavigation({
   toggleView
 }: Readonly<ISideNavigationProps>) {
   const location = useLocation()
-  console.log("location::", location?.pathname === "/root/dashboard")
   return (
     <Fragment>
       {isCollapseNavigation ? (
