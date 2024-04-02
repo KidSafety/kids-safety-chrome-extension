@@ -5,9 +5,7 @@ class WebHistoryService {
   public sync = async () => {
     const isLoggedIn = authService.isLoggedIn()
     if (!isLoggedIn) return
-    console.log("WebHistoryService.sync")
     const history = await this.getHistory()
-    console.log("WebHistoryService.sync results", history)
     fetch(`${BASE_URL}/api/v1/webhistory/sync`, {
       method: "POST",
       credentials: "include",
@@ -18,9 +16,19 @@ class WebHistoryService {
     })
   }
 
-  public getHistory = async () => {
+  /**
+   * Get the history of the user
+   * Currenly it returns the last 100 history items
+   * @returns Promise<chrome.history.HistoryItem[]>
+   */
+  public getHistory = async (): Promise<chrome.history.HistoryItem[]> => {
+    // Todo: base on user's plan, we can change the maxResults
+    // For free users, we can limit the maxResults to 100
+    // For premium users, we can limit the maxResults to 1000, max 2000
+    // For enterprise users, we can limit the maxResults to 5000
+    const maxResults = 100
     return new Promise((resolve, reject) => {
-      chrome.history.search({ text: "" }, (results) => {
+      chrome.history.search({ text: "", maxResults }, (results) => {
         resolve(results)
       })
     })
