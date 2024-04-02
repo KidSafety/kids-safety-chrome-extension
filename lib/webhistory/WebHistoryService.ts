@@ -1,7 +1,10 @@
+import authService from "~lib/auth"
 import { BASE_URL } from "~lib/env"
 
 class WebHistoryService {
   public sync = async () => {
+    const isLoggedIn = authService.isLoggedIn()
+    if (!isLoggedIn) return
     console.log("WebHistoryService.sync")
     const history = await this.getHistory()
     console.log("WebHistoryService.sync results", history)

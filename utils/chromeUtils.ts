@@ -1,4 +1,3 @@
-
 export async function fuzzySearchTabs(
   searchStr: string
 ): Promise<chrome.tabs.Tab[]> {
@@ -24,3 +23,12 @@ export const openTab = async (url: string, checkExisted = true) => {
     chrome.tabs.create({ active: true, url })
   }
 }
+
+export const getCurrentProfile =
+  async (): Promise<chrome.identity.UserInfo> => {
+    return new Promise((res) => {
+      chrome.identity.getProfileUserInfo(function (userInfo) {
+        res(userInfo)
+      })
+    })
+  }

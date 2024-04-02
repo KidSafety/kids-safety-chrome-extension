@@ -10,7 +10,6 @@
     "package": "plasmo package"
   },
   "dependencies": {
-    "@clerk/clerk-react": "^4.30.7",
     "@nivo/bar": "^0.85.1",
     "@nivo/pie": "^0.85.1",
     "@types/lodash": "^4.14.202",
@@ -37,6 +36,8 @@
       "https://*/*"
     ],
     "permissions": [
+      "identity",
+      "identity.email",
       "scripting",
       "tabs",
       "activeTab",
