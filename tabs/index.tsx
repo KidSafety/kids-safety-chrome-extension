@@ -12,11 +12,9 @@ export default function NewTabRouter() {
   const [signIn, setSignIn] = useState(false)
 
   useEffect(() => {
-    chrome.identity.getProfileUserInfo(function (userInfo) {
-      if (userInfo) {
-        authService.generateUser(userInfo).then(() => {
-          setSignIn(true)
-        })
+    authService.getUser().then((user) => {
+      if (user) {
+        setSignIn(true)
       } else {
         setSignIn(false)
       }

@@ -38,6 +38,7 @@
     "permissions": [
       "identity",
       "identity.email",
+      "cookies",
       "scripting",
       "tabs",
       "activeTab",

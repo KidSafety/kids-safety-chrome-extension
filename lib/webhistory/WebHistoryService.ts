@@ -10,6 +10,7 @@ class WebHistoryService {
     console.log("WebHistoryService.sync results", history)
     fetch(`${BASE_URL}/api/v1/webhistory/sync`, {
       method: "POST",
+      credentials: "include",
       body: JSON.stringify(history),
       headers: {
         "Content-Type": "application/json"
