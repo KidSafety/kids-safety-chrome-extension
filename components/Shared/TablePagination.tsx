@@ -1,11 +1,20 @@
-import React from "react"
+import React, { useState } from "react"
 
 import ArrowLeft from "~components/Icons/ArrowLeft"
 import ArrowRight from "~components/Icons/ArrowRight"
+import type { IQueryParams } from "~types"
+import eventEmitter from "~utils/eventEmitter"
 
-type Props = {}
+function TablePagination() {
+  const [queryParams, setQueryParams] = useState<IQueryParams>({
+    skip: 0,
+    limit: 10
+  })
 
-function TablePagination({}: Props) {
+  const handleChangePage = (action: "next" | "prev") => {
+    eventEmitter.emit("changePage", action)
+  }
+
   return (
     <div className="flex w-full justify-between items-center mt-6">
       <div className="flex justify-center items-center gap-2">
@@ -21,13 +30,17 @@ function TablePagination({}: Props) {
       </div>
 
       <div className="flex justify-normal items-center gap-4">
-        <button className="w-[28px] h-[28px] border-[1px] bg-white shadow-pagination border-[#D0D5DD] rounded-md flex justify-center items-center">
+        <button
+          onClick={() => handleChangePage("prev")}
+          className="w-[28px] h-[28px] border-[1px] bg-white shadow-pagination border-[#D0D5DD] rounded-md flex justify-center items-center">
           <ArrowLeft />
         </button>
         <p className="text-sm text-[#666666]">
           Page <span className="text-[#1972F9]">1</span> of 10
         </p>
-        <button className="w-[28px] h-[28px] border-[1px] bg-white shadow-pagination border-[#D0D5DD] rounded-md flex justify-center items-center">
+        <button
+          onClick={() => handleChangePage("next")}
+          className="w-[28px] h-[28px] border-[1px] bg-white shadow-pagination border-[#D0D5DD] rounded-md flex justify-center items-center">
           <ArrowRight />
         </button>
       </div>

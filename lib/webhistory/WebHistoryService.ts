@@ -1,5 +1,6 @@
 import authService from "~lib/auth"
 import { BASE_URL } from "~lib/env"
+import type { IQueryParams } from "~types"
 
 class WebHistoryService {
   public sync = async () => {
@@ -34,8 +35,14 @@ class WebHistoryService {
     })
   }
 
-  fetchRemoteHistory = async () => {
-    return fetch(`${BASE_URL}/api/v1/webhistory/list`, {
+  fetchRemoteHistory = async (queryParams: IQueryParams) => {
+    const params = new URLSearchParams()
+    Object.entries(queryParams).forEach(([key, value]) => {
+      params.append(key, value)
+    })
+    const url = `${BASE_URL}/api/v1/webhistory/list?${params.toString()}`
+
+    return fetch(url, {
       credentials: "include",
       headers: {
         "Content-Type": "application/json"
