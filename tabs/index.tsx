@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { Route, MemoryRouter as Router, Routes } from "react-router-dom"
 
 import authService from "~lib/auth"
+import TanstackProvider from "~providers/TanstackProvider"
 import Welcome from "~tabs/pages/Welcome/Welcome"
 
 import PageRoot from "./pages/PageRoot"
@@ -25,13 +26,16 @@ export default function NewTabRouter() {
     if (signIn) return <PageRoot />
     return <Welcome />
   }
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={renderContent()} />
-        <Route path="/welcome" element={<Welcome />} />
-        <Route path="/root/*" element={<PageRoot />} />
-      </Routes>
-    </Router>
+    <TanstackProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={renderContent()} />
+          <Route path="/welcome" element={<Welcome />} />
+          <Route path="/root/*" element={<PageRoot />} />
+        </Routes>
+      </Router>
+    </TanstackProvider>
   )
 }
