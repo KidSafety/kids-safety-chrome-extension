@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query"
 import { Fragment, useEffect, useState } from "react"
 
 import Header from "~components/Shared/Header"
@@ -9,16 +10,18 @@ import webHistoryService from "~lib/webhistory/WebHistoryService"
 type Props = {}
 
 function MonitoringHistory({}: Props) {
-  const [data, setData] = useState<IWebHistory[]>([])
+  const [webHistories, setWebHistories] = useState<IWebHistory[]>([])
 
-  const fetchHistory = async () => {
-    const res = await webHistoryService.fetchRemoteHistory()
-    setData(res)
-  }
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["fetchWebHistory"],
+    queryFn: () => {
+      return webHistoryService.fetchRemoteHistory()
+    }
+  })
 
   useEffect(() => {
-    fetchHistory()
-  }, [])
+    if (data && !isLoading && !error) setWebHistories(data)
+  }, [data])
 
   return (
     <Fragment>
@@ -34,7 +37,7 @@ function MonitoringHistory({}: Props) {
           />
           {/* Rows */}
           <div className="w-full">
-            {data?.map((r: any, index: number) => {
+            {webHistories?.map((r: any, index: number) => {
               return (
                 <MonitoringRow
                   key={r.id}
