@@ -1,45 +1,23 @@
-import React, { Fragment } from "react"
+import { Fragment, useEffect, useState } from "react"
 
 import Header from "~components/Shared/Header"
 import MonitoringRow from "~components/Shared/MonitoringRow"
 import TablePagination from "~components/Shared/TablePagination"
+import type { IWebHistory } from "~lib/types/webhistory"
+import webHistoryService from "~lib/webhistory/WebHistoryService"
 
 type Props = {}
 
-const data = [
-  {
-    url: "http:malaciouscontent.link.com",
-    type: "Youtube",
-    timeStamp: "02/10/2024 02:00pm"
-  },
-  {
-    url: "http:malaciouscontent.link.com",
-    type: "Youtube",
-    timeStamp: "02/10/2024 02:00pm"
-  },
-  {
-    url: "http:malaciouscontent.link.com",
-    type: "Youtube",
-    timeStamp: "02/10/2024 02:00pm"
-  },
-  {
-    url: "http:malaciouscontent.link.com",
-    type: "Youtube",
-    timeStamp: "02/10/2024 02:00pm"
-  },
-  {
-    url: "http:malaciouscontent.link.com",
-    type: "Youtube",
-    timeStamp: "02/10/2024 02:00pm"
-  },
-  {
-    url: "http:malaciouscontent.link.com",
-    type: "Youtube",
-    timeStamp: "02/10/2024 02:00pm"
-  }
-]
-
 function MonitoringHistory({}: Props) {
+  const [data, setData] = useState<IWebHistory[]>([])
+
+  useEffect(() => {
+    webHistoryService.fetchRemoteHistory().then((res) => {
+      console.log(res)
+      setData(res)
+    })
+  }, [])
+
   return (
     <Fragment>
       <div className="w-full mt-6">
@@ -50,17 +28,17 @@ function MonitoringHistory({}: Props) {
         <div className="bg-white pt-4 rounded-lg w-full overflow-hidden">
           {/* Header */}
           <Header
-            headers={["Websites Url", "Type", " Date & Time", "Actions"]}
+            headers={["Websites Url", "Category", " Date & Time", "Actions"]}
           />
           {/* Rows */}
           <div className="w-full">
             {data?.map((r: any, index: number) => {
               return (
                 <MonitoringRow
-                  key={index}
+                  key={r.id}
                   url={r?.url}
-                  type={r?.type}
-                  timeStamp={r?.timeStamp}
+                  category={r?.category}
+                  timeStamp={r?.lastVisitTime}
                   isBorder={index !== data?.length - 1}
                 />
               )
