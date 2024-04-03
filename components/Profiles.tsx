@@ -1,5 +1,6 @@
 import profileImage from "data-base64:~assets/profile.png"
 import React from "react"
+import LogoutBtn from "./LogoutBtn"
 
 interface props {
   toggleProfileDropdown: boolean
@@ -82,6 +83,7 @@ function Profiles({ toggleProfileDropdown, setToggleProfileDropdown }: props) {
               Mr Johnathan
             </p>
           </button>
+          <LogoutBtn/>
         </div>
       )}
     </div>

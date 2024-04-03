@@ -1,10 +1,14 @@
 import { useNavigate } from "react-router-dom"
 
+import authService from "~lib/auth"
+
 function WelcomePage() {
   const navigate = useNavigate()
 
   const handleContinue = () => {
-    navigate("/root/dashboard")
+    authService.getUser().then((user) => {
+      if (user) navigate("/root/dashboard")
+    })
   }
 
   return (

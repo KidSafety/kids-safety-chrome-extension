@@ -29,6 +29,7 @@ export default function NewTabRouter() {
     <Router>
       <Routes>
         <Route path="/" element={renderContent()} />
+        <Route path="/welcome" element={<Welcome />} />
         <Route path="/root/*" element={<PageRoot />} />
       </Routes>
     </Router>
