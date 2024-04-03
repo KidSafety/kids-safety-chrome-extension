@@ -11,11 +11,13 @@ type Props = {}
 function MonitoringHistory({}: Props) {
   const [data, setData] = useState<IWebHistory[]>([])
 
+  const fetchHistory = async () => {
+    const res = await webHistoryService.fetchRemoteHistory()
+    setData(res)
+  }
+
   useEffect(() => {
-    webHistoryService.fetchRemoteHistory().then((res) => {
-      console.log(res)
-      setData(res)
-    })
+    fetchHistory()
   }, [])
 
   return (

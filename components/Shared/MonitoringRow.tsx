@@ -28,9 +28,10 @@ function MonitoringRow({
           id=""
         />
       </div>
-      <div className="flex justify-start items-center py-4 mr-4 overflow-x-auto whitespace-no-wrap">
-        {url}
+      <div className="flex justify-start py-4 mr-4 overflow-x-scroll text-nowrap">
+        <p className="text-blue-600">{url}</p>
       </div>
+
       <div className="flex justify-start item-center py-4">
         <p className="text-[16px] text-[#333333] text-left">{category}</p>
       </div>
