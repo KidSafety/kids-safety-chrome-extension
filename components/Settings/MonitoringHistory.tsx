@@ -1,16 +1,13 @@
-import { Fragment } from "react"
-
 import TablePagination from "~components/Shared/TablePagination"
 
-import MonitoringHistoryTable from "./MonitoringHistory"
-
+import MonitoringHistoryTable from "./MonitoringHistory/MonitoringHistoryTable"
 
 function MonitoringHistory() {
   return (
-    <Fragment>
+    <>
       <MonitoringHistoryTable />
       <TablePagination />
-    </Fragment>
+    </>
   )
 }
 

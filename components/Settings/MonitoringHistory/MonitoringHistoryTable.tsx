@@ -9,7 +9,7 @@ import webHistoryService from "~lib/webhistory/WebHistoryService"
 import type { IQueryParams } from "~types"
 import eventEmitter from "~utils/eventEmitter"
 
-function MonitoringHistoryTable() {
+export default function MonitoringHistoryTable() {
   const [webHistories, setWebHistories] = useState<IWebHistory[]>([])
   const [queryParams, setQueryParams] = useState<IQueryParams>({
     skip: 0,
@@ -74,5 +74,3 @@ function MonitoringHistoryTable() {
     </div>
   )
 }
-
-export default MonitoringHistoryTable
