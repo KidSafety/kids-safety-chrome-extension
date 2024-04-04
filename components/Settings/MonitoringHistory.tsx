@@ -1,59 +1,62 @@
 import { useQuery } from "@tanstack/react-query"
-import { Fragment, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
-import Header from "~components/Shared/Header"
-import MonitoringRow from "~components/Shared/MonitoringRow"
 import TablePagination from "~components/Shared/TablePagination"
+import { EventTypes } from "~constants/eventTypes"
 import type { IWebHistory } from "~lib/types/webhistory"
 import webHistoryService from "~lib/webhistory/WebHistoryService"
+import type { IPaginationData } from "~types"
+import eventEmitter from "~utils/eventEmitter"
 
-type Props = {}
+import MonitoringHistoryTable from "./MonitoringHistory/MonitoringHistoryTable"
 
-function MonitoringHistory({}: Props) {
+function MonitoringHistory() {
   const [webHistories, setWebHistories] = useState<IWebHistory[]>([])
 
-  const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["fetchWebHistory"],
+  const [pagination, setPagination] = useState<IPaginationData>({
+    skip: 0,
+    limit: 10,
+    total: 0
+  })
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["fetchWebHistory", pagination],
     queryFn: () => {
-      return webHistoryService.fetchRemoteHistory()
+      return webHistoryService.fetchRemoteHistory({
+        skip: pagination.skip,
+        limit: pagination.limit
+      })
     }
   })
 
+  const subscribe = () => {
+    const token = eventEmitter.addListener(
+      EventTypes.REFRESH_WEBHISTORY,
+      (data: IPaginationData) => setPagination(data)
+    )
+    return token
+  }
+
   useEffect(() => {
-    if (data && !isLoading && !error) setWebHistories(data)
+    const token = subscribe()
+    return () => token.remove()
+  }, [])
+
+  useEffect(() => {
+    if (data) {
+      setWebHistories(data.histories)
+      setPagination({
+        ...pagination,
+        total: data.total
+      })
+    }
   }, [data])
 
   return (
-    <Fragment>
-      <div className="w-full mt-6">
-        <h2 className="text-[24px] font-semibold text-[#0B0B0C] mb-4">
-          History Monitoring
-        </h2>
-        {/* Table */}
-        <div className="bg-white pt-4 rounded-lg w-full overflow-hidden">
-          {/* Header */}
-          <Header
-            headers={["Websites Url", "Category", " Date & Time", "Actions"]}
-          />
-          {/* Rows */}
-          <div className="w-full">
-            {webHistories?.map((r: any, index: number) => {
-              return (
-                <MonitoringRow
-                  key={r.id}
-                  url={r?.url}
-                  category={r?.category}
-                  timeStamp={r?.lastVisitTime}
-                  isBorder={index !== data?.length - 1}
-                />
-              )
-            })}
-          </div>
-        </div>
-      </div>
-      {/* Table Pagination */}
-      <TablePagination />
-    </Fragment>
+    <>
+      <MonitoringHistoryTable webHistories={webHistories} />
+      <TablePagination pagination={pagination} />
+    </>
   )
 }
 
