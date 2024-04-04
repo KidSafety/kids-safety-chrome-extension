@@ -1,6 +1,6 @@
 import authService from "~lib/auth"
 import { BASE_URL } from "~lib/env"
-import type { IQueryParams } from "~types"
+import type { IPaginationData } from "~types"
 
 class WebHistoryService {
   public sync = async () => {
@@ -35,7 +35,7 @@ class WebHistoryService {
     })
   }
 
-  fetchRemoteHistory = async (queryParams: IQueryParams) => {
+  fetchRemoteHistory = async (queryParams: IPaginationData) => {
     const params = new URLSearchParams()
     Object.entries(queryParams).forEach(([key, value]) => {
       params.append(key, value)

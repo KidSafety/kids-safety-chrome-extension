@@ -1,34 +1,28 @@
-import React, { useState } from "react"
-
 import ArrowLeft from "~components/Icons/ArrowLeft"
 import ArrowRight from "~components/Icons/ArrowRight"
-import type { IQueryParams } from "~types"
+import { EventTypes } from "~constants/eventTypes"
+import type { IPaginationData } from "~types"
 import eventEmitter from "~utils/eventEmitter"
 
-function TablePagination() {
-  const [queryParams, setQueryParams] = useState<IQueryParams>({
-    skip: 0,
-    limit: 10
-  })
-
+interface ITablePaginationProps {
+  pagination: IPaginationData
+}
+function TablePagination({ pagination }: ITablePaginationProps) {
+  const currentPage = Math.ceil(pagination.skip / pagination.limit) + 1
+  const pages = Math.ceil(pagination.total / pagination.limit)
   const handleChangePage = (action: "next" | "prev") => {
-    eventEmitter.emit("changePage", action)
+    if (action === "next") {
+      if (pagination.skip >= pagination.total) return
+      pagination.skip += pagination.limit
+    } else {
+      if (pagination.skip === 0) return
+      pagination.skip -= pagination.limit
+    }
+    eventEmitter.emit(EventTypes.REFRESH_WEBHISTORY, pagination)
   }
 
   return (
     <div className="flex w-full justify-between items-center mt-6">
-      <div className="flex justify-center items-center gap-2">
-        <p className="text-sm text-[#666666]">Show</p>
-        <label className="flex items-center text-[12px] text-small text-black dark:text-white md:text-[14px]">
-          <select className="ml-2 px-4 py-2 border-[1px] border-[#E0E7ED] rounded-md text-black dark:text-white">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="30">30</option>
-          </select>
-        </label>
-        <p className="text-sm text-[#666666]">entries of 30</p>
-      </div>
-
       <div className="flex justify-normal items-center gap-4">
         <button
           onClick={() => handleChangePage("prev")}
@@ -36,7 +30,7 @@ function TablePagination() {
           <ArrowLeft />
         </button>
         <p className="text-sm text-[#666666]">
-          Page <span className="text-[#1972F9]">1</span> of 10
+          Page <span className="text-[#1972F9]">{currentPage}</span> of {pages}
         </p>
         <button
           onClick={() => handleChangePage("next")}
