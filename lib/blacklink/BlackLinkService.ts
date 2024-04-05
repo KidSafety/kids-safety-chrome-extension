@@ -1,3 +1,5 @@
+import { BASE_URL } from "~lib/env"
+
 class BlackLinkService {
   blackLinks: [] = []
   constructor() {}
@@ -5,12 +7,18 @@ class BlackLinkService {
   public fetchBlackLinks = async () => {}
 
   public isLinkBlacklisted = async (url: string) => {
-    url = url.split("?")[0]
-    if (url.endsWith("/")) url = url.slice(0, -1)
-    if (url === "https://www.google.com") {
-      return true
-    }
-    return false
+    return await fetch(`${BASE_URL}/api/v1/sitechecker/isBlocked`, {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({ url }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then((res) => {
+      if (res.ok) return res.json()
+      console.error("Failed to fetch blacklisted links", res.statusText)
+      throw new Error("Failed to fetch blacklisted links")
+    })
   }
 }
 
