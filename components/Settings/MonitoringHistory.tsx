@@ -32,7 +32,9 @@ function MonitoringHistory() {
   const subscribe = () => {
     const token = eventEmitter.addListener(
       EventTypes.REFRESH_WEBHISTORY,
-      (data: IPaginationData) => setPagination(data)
+      (data: IPaginationData) => {
+        if (data) setPagination(data)
+      }
     )
     return token
   }
@@ -55,7 +57,9 @@ function MonitoringHistory() {
   return (
     <>
       <MonitoringHistoryTable webHistories={webHistories} />
-      <TablePagination pagination={pagination} />
+      {Boolean(pagination?.limit) && (
+        <TablePagination pagination={pagination} />
+      )}
     </>
   )
 }

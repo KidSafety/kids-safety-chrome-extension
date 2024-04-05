@@ -7,9 +7,9 @@ import eventEmitter from "~utils/eventEmitter"
 interface ITablePaginationProps {
   pagination: IPaginationData
 }
-function TablePagination({ pagination }: ITablePaginationProps) {
-  const currentPage = Math.ceil(pagination.skip / pagination.limit) + 1
-  const pages = Math.ceil(pagination.total / pagination.limit)
+function TablePagination({ pagination }: Readonly<ITablePaginationProps>) {
+  const currentPage = Math.ceil(pagination?.skip / pagination?.limit) + 1
+  const pages = Math.ceil(pagination?.total / pagination?.limit)
   const handleChangePage = (action: "next" | "prev") => {
     if (action === "next") {
       if (pagination.skip >= pagination.total) return
