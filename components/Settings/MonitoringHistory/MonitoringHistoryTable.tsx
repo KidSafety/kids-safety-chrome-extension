@@ -7,7 +7,7 @@ interface IMonitoringHistoryTableProps {
 }
 export default function MonitoringHistoryTable({
   webHistories
-}: IMonitoringHistoryTableProps) {
+}: Readonly<IMonitoringHistoryTableProps>) {
   return (
     <div className="w-full mt-6">
       <h2 className="text-[24px] font-semibold text-[#0B0B0C] mb-4">

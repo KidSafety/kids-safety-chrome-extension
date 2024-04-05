@@ -1,19 +1,36 @@
-import React, { Fragment, useState } from "react"
+import { useMutation } from "@tanstack/react-query"
+import { Fragment, useState } from "react"
+import { toast } from "react-toastify"
 
 import Add from "~components/Icons/Add"
 import Filter from "~components/Icons/Filter"
 import Search from "~components/Icons/Search"
 import AddNewWebsiteModel from "~components/Models/AddNewWebsiteModel"
-import BlockConfirmationModel from "~components/Models/BlockConfirmationModel"
 import MonitoringHistory from "~components/Settings/MonitoringHistory"
 import Security from "~components/Settings/Security/Security"
 import SettingsTabs from "~components/Settings/SettingsTabs"
 import WebsiteManagement from "~components/Settings/WebsiteManagement"
+import { EventTypes } from "~constants/eventTypes"
+import blackLinkService from "~lib/blacklink/BlackLinkService"
+import eventEmitter from "~utils/eventEmitter"
 
 function SettingsPage() {
   const [tabs, setTabs] = useState(0)
   const [addWebsiteUrl, setAddWebsiteUrl] = useState(false)
-  const [blockConfirmation, setBlockConfirmation] = useState(false)
+
+  const addBlackLinkMutation = useMutation({
+    mutationFn: async (url: string) => blackLinkService.addBlackLink(url),
+    onSuccess: () => {
+      setAddWebsiteUrl(false)
+      eventEmitter.emit(EventTypes.REFRESH_WEBHISTORY)
+      toast.success("Site added to blocked list")
+    }
+  })
+
+  const handleAddBlackLink = (url: string) => {
+    addBlackLinkMutation.mutate(url)
+  }
+
   return (
     <Fragment>
       <div className="w-full min-h-[calc(100%-68px)] bg-[#EEF2F8] px-5 py-8">
@@ -36,10 +53,10 @@ function SettingsPage() {
               <Filter />
             </button>
             <button
+              disabled={addBlackLinkMutation.isPending}
               onClick={() => setAddWebsiteUrl(true)}
               className="px-3 flex justify-center h-[40px] items-center whitespace-nowrap gap-2 rounded-lg border-[1px] border-[#194494] text-white text-sm bg-[#194494]">
-              <Add />
-              Add New Website
+              <Add /> Block Website
             </button>
           </div>
         </div>
@@ -55,19 +72,8 @@ function SettingsPage() {
       {addWebsiteUrl && (
         <AddNewWebsiteModel
           onClose={() => setAddWebsiteUrl(false)}
-          onSuccess={() => {
-            setAddWebsiteUrl(false)
-            setBlockConfirmation(true)
-          }}
-        />
-      )}
-      {/* Black confirmation model */}
-      {blockConfirmation && (
-        <BlockConfirmationModel
-          onClose={() => {
-            setBlockConfirmation(false)
-            setTabs(0)
-          }}
+          onSuccess={(url) => handleAddBlackLink(url)}
+          isLoading={addBlackLinkMutation.isPending}
         />
       )}
     </Fragment>
