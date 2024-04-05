@@ -19,7 +19,7 @@ function MonitoringHistory() {
     total: 0
   })
 
-  const { data, isLoading, error } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["fetchWebHistory", pagination],
     queryFn: () => {
       return webHistoryService.fetchRemoteHistory({
@@ -34,6 +34,7 @@ function MonitoringHistory() {
       EventTypes.REFRESH_WEBHISTORY,
       (data: IPaginationData) => {
         if (data) setPagination(data)
+        else refetch()
       }
     )
     return token

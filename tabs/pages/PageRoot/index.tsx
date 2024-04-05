@@ -1,8 +1,11 @@
-import { Route, Routes } from "react-router-dom"
-
 import "../../../style.css"
 
+import { ToastContainer } from "react-toastify"
+
+import "react-toastify/dist/ReactToastify.css"
+
 import { useState } from "react"
+import { Route, Routes } from "react-router-dom"
 
 import SideNavigation from "~components/SideNavigation"
 import TopNavigation from "~components/TopNavigation"
@@ -32,6 +35,7 @@ function PageRoot() {
           <Route path="/familyMember" element={<FamilyMemberPage />} />
         </Routes>
       </div>
+      <ToastContainer />
     </div>
   )
 }
