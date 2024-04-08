@@ -19,7 +19,7 @@ function WebsiteManagement() {
     total: 0
   })
 
-  const { data, refetch } = useQuery({
+  const { data, isFetching, refetch } = useQuery({
     queryKey: ["fetchCustomBlacklist", pagination],
     queryFn: () => {
       return blackLinkService.fetchCustomBlacklist({
@@ -57,7 +57,10 @@ function WebsiteManagement() {
 
   return (
     <>
-      <WebsiteManagementTable blacklists={customBlackList} />
+      <WebsiteManagementTable
+        isFetching={isFetching}
+        blacklists={customBlackList}
+      />
       {Boolean(pagination?.limit) && (
         <TablePagination pagination={pagination} />
       )}

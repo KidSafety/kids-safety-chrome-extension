@@ -1,16 +1,34 @@
-import React, { Fragment } from "react"
+import { useMutation } from "@tanstack/react-query"
 
 import Alert from "~components/Icons/Alert"
 import Cross from "~components/Icons/Cross"
+import blackLinkService from "~lib/blacklink/BlackLinkService"
 
-interface props {
+interface IUnlockWebsiteModelProps {
+  url: string
   onClose: () => void
-  onSuccess: () => void
+  onConfrim: () => void
 }
 
-function UnlockWebsiteModel({ onClose, onSuccess }: props) {
+function UnlockWebsiteModel({
+  url,
+  onClose,
+  onConfrim
+}: Readonly<IUnlockWebsiteModelProps>) {
+  const removeBlackLinkMutation = useMutation({
+    mutationFn: async (url: string) =>
+      blackLinkService.removeCustomBlacklist(url),
+    onSuccess: () => {
+      onConfrim()
+    }
+  })
+
+  const handleRemoveBlackLink = (url: string) => {
+    removeBlackLinkMutation.mutate(url)
+  }
+
   return (
-    <Fragment>
+    <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
         <div className="relative mx-auto w-full max-w-[519px]">
           {/*content*/}
@@ -26,17 +44,19 @@ function UnlockWebsiteModel({ onClose, onSuccess }: props) {
               <Alert />
               <h2 className="text-[20px] font-semibold text-[#333333] text-center mt-3 max-w-[325px]">
                 Are you sure you want to unblock{" "}
-                <span className="text-[#1972F9]">www.facebook.com</span> site?
+                <span className="text-[#1972F9]">{url}</span> site?
               </h2>
             </div>
             <div className="flex justify-center items-center gap-4 px-6 pb-6">
               <button
+                disabled={removeBlackLinkMutation.isPending}
                 onClick={onClose}
                 className="w-[95px] h-[40px] flex justify-center items-center capitalize text-sm text-[#194494] border-[1px] border-[#194494] rounded-lg">
                 Cancel
               </button>
               <button
-                onClick={onSuccess}
+                disabled={removeBlackLinkMutation.isPending}
+                onClick={() => handleRemoveBlackLink(url)}
                 className="w-[95px] h-[40px] flex justify-center items-center capitalize text-sm text-white bg-[#194494] border-[1px] border-[#194494] rounded-lg">
                 Yes
               </button>
@@ -45,7 +65,7 @@ function UnlockWebsiteModel({ onClose, onSuccess }: props) {
         </div>
       </div>
       <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-    </Fragment>
+    </>
   )
 }
 
