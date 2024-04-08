@@ -3,11 +3,11 @@ import React, { Fragment } from "react"
 import Cross from "~components/Icons/Cross"
 import Tick from "~components/Icons/Tick"
 
-interface props {
+interface IUnlockedConfirmationProps {
   onClose: () => void
 }
 
-function UnlockedConfirmation({ onClose }: props) {
+function UnlockedConfirmation({ onClose }: IUnlockedConfirmationProps) {
   return (
     <Fragment>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
