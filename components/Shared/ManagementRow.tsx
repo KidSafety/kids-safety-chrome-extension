@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import React from "react"
 
 type Props = {
@@ -25,7 +26,7 @@ function ManagementRow({ timeStamp, type, url, isBorder, onUnlock }: Props) {
         <p className="text-[16px] text-[#333333] text-left">{type}</p>
       </div>
       <div className="flex justify-start item-center py-4">
-        <p className="text-[16px] text-[#333333] text-left">{timeStamp}</p>
+        <p className="text-[16px] text-[#333333] text-left"> {dayjs(timeStamp).format("YYYY/MM/DD HH:mm:ss")}</p>
       </div>
       <div className="flex justify-start item-center py-4 gap-3">
         <button

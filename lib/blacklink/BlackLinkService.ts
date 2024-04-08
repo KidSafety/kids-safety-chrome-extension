@@ -1,12 +1,44 @@
 import { BASE_URL } from "~lib/env"
+import type { IPaginationData } from "~types"
 
 class BlackLinkService {
-  blackLinks: [] = []
-  constructor() {}
+  fetchCustomBlacklist = async (queryParams: IPaginationData) => {
+    const params = new URLSearchParams()
+    Object.entries(queryParams).forEach(([key, value]) => {
+      params.append(key, value)
+    })
+    const url = `${BASE_URL}/api/v1/sitechecker/blacklist/custom?${params.toString()}`
+    return await fetch(url, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then((res) => {
+      if (res.ok) return res.json()
+      console.error("Failed to fetch blacklisted links", res.statusText)
+      throw new Error("Failed to fetch blacklisted links")
+    })
+  }
 
-  public fetchBlackLinks = async () => {}
+  removeCustomBlacklist = async (url: string) => {
+    return await fetch(
+      `${BASE_URL}/api/v1/sitechecker/blacklist/custom?url=${url}`,
+      {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    ).then((res) => {
+      if (res.ok) return res.json()
+      console.error("Failed to fetch blacklisted links", res.statusText)
+      throw new Error("Failed to fetch blacklisted links")
+    })
+  }
 
-  public isLinkBlacklisted = async (url: string) => {
+  isLinkBlacklisted = async (url: string) => {
     return await fetch(`${BASE_URL}/api/v1/sitechecker/isBlocked`, {
       method: "POST",
       credentials: "include",
@@ -21,7 +53,7 @@ class BlackLinkService {
     })
   }
 
-  public addBlackLink = async (url: string) => {
+  addBlackLink = async (url: string) => {
     return await fetch(`${BASE_URL}/api/v1/sitechecker/blacklist/add`, {
       method: "POST",
       credentials: "include",

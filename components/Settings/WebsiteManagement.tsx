@@ -1,102 +1,67 @@
-import React, { Fragment, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { useEffect, useState } from "react"
 
-import UnlockedConfirmation from "~components/Models/UnlockedConfirmation"
-import UnlockWebsiteModel from "~components/Models/UnlockWebsiteModel"
-import Header from "~components/Shared/Header"
-import ManagementRow from "~components/Shared/ManagementRow"
 import TablePagination from "~components/Shared/TablePagination"
+import { EventTypes } from "~constants/eventTypes"
+import blackLinkService from "~lib/blacklink/BlackLinkService"
+import type { ICustomBlackList } from "~lib/types/blacklist"
+import type { IPaginationData } from "~types"
+import eventEmitter from "~utils/eventEmitter"
 
-type Props = {}
+import WebsiteManagementTable from "./WebsiteManagement/WebsiteManagementTable"
 
-const data = [
-  {
-    url: "http:malaciouscontent.link.com",
-    type: "Malicious Content",
-    timeStamp: "01:00 hr"
-  },
-  {
-    url: "http:malaciouscontent.link.com",
-    type: "Malicious Content",
-    timeStamp: "01:00 hr"
-  },
-  {
-    url: "http:malaciouscontent.link.com",
-    type: "Malicious Content",
-    timeStamp: "01:00 hr"
-  },
-  {
-    url: "http:malaciouscontent.link.com",
-    type: "Malicious Content",
-    timeStamp: "01:00 hr"
-  },
-  {
-    url: "http:malaciouscontent.link.com",
-    type: "Malicious Content",
-    timeStamp: "01:00 hr"
-  },
-  {
-    url: "http:malaciouscontent.link.com",
-    type: "Malicious Content",
-    timeStamp: "01:00 hr"
+function WebsiteManagement() {
+  const [customBlackList, setCustomBlackList] = useState<ICustomBlackList[]>([])
+
+  const [pagination, setPagination] = useState<IPaginationData>({
+    skip: 0,
+    limit: 10,
+    total: 0
+  })
+
+  const { data, refetch } = useQuery({
+    queryKey: ["fetchCustomBlacklist", pagination],
+    queryFn: () => {
+      return blackLinkService.fetchCustomBlacklist({
+        skip: pagination.skip,
+        limit: pagination.limit
+      })
+    }
+  })
+
+  const subscribe = () => {
+    const token = eventEmitter.addListener(
+      EventTypes.REFRESH_CUSTOM_BLACKLIST,
+      (data: IPaginationData) => {
+        if (data) setPagination(data)
+        else refetch()
+      }
+    )
+    return token
   }
-]
 
-function WebsiteManagement({}: Props) {
-  const [unLockWebsite, setUnLockWebsite] = useState(false)
-  const [unlockConfirmation, setUnlockConfirmation] = useState(false)
+  useEffect(() => {
+    const token = subscribe()
+    return () => token.remove()
+  }, [])
+
+  useEffect(() => {
+    if (data) {
+      setCustomBlackList(data.sites)
+      setPagination({
+        ...pagination,
+        total: data.total
+      })
+    }
+  }, [data])
+
   return (
-    <Fragment>
-      <div className="w-full mt-6">
-        <h2 className="text-[24px] font-semibold text-[#0B0B0C] mb-4">
-          Website Management
-        </h2>
-        {/* Table */}
-        <div className="bg-white pt-4 rounded-lg w-full overflow-hidden">
-          {/* Header */}
-          <Header
-            headers={["Blocked Websites", "Type", "Time Usage", "Actions"]}
-          />
-          {/* Rows */}
-          <div className="w-full">
-            {data?.map((r: any, index: number) => {
-              return (
-                <ManagementRow
-                  key={index}
-                  url={r?.url}
-                  type={r?.type}
-                  timeStamp={r?.timeStamp}
-                  isBorder={index !== data?.length - 1}
-                  onUnlock={(id: string) => {
-                    setUnLockWebsite(true)
-                  }}
-                />
-              )
-            })}
-          </div>
-        </div>
-      </div>
-      {/* Table Pagination */}
-      <TablePagination />
-
-      {/* Unlock website model */}
-      {unLockWebsite && (
-        <UnlockWebsiteModel
-          onClose={() => setUnLockWebsite(false)}
-          onSuccess={() => {
-            setUnLockWebsite(false)
-            setUnlockConfirmation(true)
-          }}
-        />
+    <>
+      <WebsiteManagementTable blacklists={customBlackList} />
+      {Boolean(pagination?.limit) && (
+        <TablePagination pagination={pagination} />
       )}
-      {/* Black confirmation model */}
-      {unlockConfirmation && (
-        <UnlockedConfirmation
-          onClose={() => {
-            setUnlockConfirmation(false)
-          }}
-        />
-      )}
-    </Fragment>
+    </>
   )
 }
 
