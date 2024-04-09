@@ -1,5 +1,10 @@
+import { useMutation } from "@tanstack/react-query"
 import dayjs from "dayjs"
 import React from "react"
+import { toast } from "react-toastify"
+
+import blackLinkService from "~lib/blacklink/BlackLinkService"
+import whiteListService from "~lib/blacklink/WhiteListService"
 
 type IManagementRowProps = {
   url: string
@@ -16,6 +21,17 @@ function ManagementRow({
   isBorder,
   onUnlock
 }: Readonly<IManagementRowProps>) {
+  const addWhiteListMutation = useMutation({
+    mutationFn: async (url: string) => whiteListService.addWhiteList(url),
+    onSuccess: () => {
+      toast.success("Successfully added to whitelist")
+    }
+  })
+
+  const handleWhiteList = (url: string) => {
+    addWhiteListMutation.mutate(url)
+  }
+
   return (
     <div
       className={`w-full grid grid-cols-[.5fr,3fr,2fr,2fr,2fr] px-3 ${isBorder && "border-b-[1px] border-[#D1E3FE]"}`}>
@@ -39,9 +55,16 @@ function ManagementRow({
       </div>
       <div className="flex justify-start item-center py-4 gap-3">
         <button
+          disabled={addWhiteListMutation.isPending}
           onClick={() => onUnlock(url)}
           className="text-sm text-[#F75555]">
           Unblock
+        </button>
+        <button
+          disabled={addWhiteListMutation.isPending}
+          onClick={() => handleWhiteList(url)}
+          className="text-sm text-blue-400">
+          Whitelist
         </button>
       </div>
     </div>
