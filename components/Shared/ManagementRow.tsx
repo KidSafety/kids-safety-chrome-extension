@@ -39,6 +39,12 @@ function ManagementRow({
     setOpenModel(true)
   }
 
+  const handleBlock = (url: string) => {
+    setMode("block")
+    setSelectedUrl(url)
+    setOpenModel(true)
+  }
+
   const handleWhiteList = (url: string) => {
     setMode("whitelist")
     setSelectedUrl(url)
@@ -77,6 +83,15 @@ function ManagementRow({
               onClick={() => handleUnlock(url)}
               className="text-sm text-[#F75555]">
               Unblock
+            </button>
+          )}
+
+          {!isBlocked && (
+            <button
+              disabled={addWhiteListMutation.isPending}
+              onClick={() => handleBlock(url)}
+              className="text-sm text-[#F75555]">
+              Block
             </button>
           )}
 

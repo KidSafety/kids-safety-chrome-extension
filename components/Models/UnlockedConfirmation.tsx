@@ -19,6 +19,11 @@ function UnlockedConfirmation({
         title: "Unblock Successfully!",
         message: "Site has been unblocked successfully!"
       }
+    } else if (mode === "block") {
+      return {
+        title: "Block Successfully!",
+        message: "Site has been blocked successfully!"
+      }
     }
     return {
       title: "Add to whitelist Successfully!",

@@ -10,4 +10,4 @@ export interface ICustomBlackList {
   updatedAt: string
 }
 
-export type IDialogMode = "unlock" | "whitelist"
+export type IDialogMode = "block" | "unlock" | "whitelist"

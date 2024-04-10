@@ -23,6 +23,8 @@ function UnlockWebsiteModel({
     mutationFn: async (url: string) => {
       if (mode === "whitelist") {
         return whiteListService.addWhiteList(url)
+      } else if (mode === "block") {
+        return blackLinkService.addBlackLink(url)
       }
       return blackLinkService.removeCustomBlacklist(url)
     },
@@ -39,6 +41,8 @@ function UnlockWebsiteModel({
     let title = "Unlock"
     if (mode === "whitelist") {
       title = "Whitelist"
+    } else if (mode === "block") {
+      title = "Block"
     }
     return `Are you sure you want to ${title} the`
   }
