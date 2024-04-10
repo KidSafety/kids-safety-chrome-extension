@@ -64,7 +64,9 @@ function ManagementRow({
             id=""
           />
         </div>
-        <div className="flex justify-start item-center py-4">{url}</div>
+        <div className="flex justify-start py-4 mr-4 overflow-x-scroll text-nowrap">
+          <p className="text-blue-600">{url}</p>
+        </div>
         <div className="flex justify-start item-center py-4">
           <p className="text-[16px] text-[#333333] text-left">
             {isBlocked ? "Blocked" : "Whitelisted"}
