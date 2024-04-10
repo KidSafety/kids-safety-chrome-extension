@@ -2,12 +2,34 @@ import React, { Fragment } from "react"
 
 import Cross from "~components/Icons/Cross"
 import Tick from "~components/Icons/Tick"
+import type { IDialogMode } from "~lib/types/blacklist"
 
 interface IUnlockedConfirmationProps {
+  mode: IDialogMode
   onClose: () => void
 }
 
-function UnlockedConfirmation({ onClose }: IUnlockedConfirmationProps) {
+function UnlockedConfirmation({
+  mode,
+  onClose
+}: Readonly<IUnlockedConfirmationProps>) {
+  const renderTitle = () => {
+    if (mode === "unlock") {
+      return {
+        title: "Unblock Successfully!",
+        message: "Site has been unblocked successfully!"
+      }
+    } else if (mode === "block") {
+      return {
+        title: "Block Successfully!",
+        message: "Site has been blocked successfully!"
+      }
+    }
+    return {
+      title: "Add to whitelist Successfully!",
+      message: "Site has been added to whitelist successfully!"
+    }
+  }
   return (
     <Fragment>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -24,10 +46,10 @@ function UnlockedConfirmation({ onClose }: IUnlockedConfirmationProps) {
             <div className="w-full flex justify-center items-center flex-col p-6 pt-2   ">
               <Tick />
               <h2 className="text-[20px] font-semibold text-[#999999] text-center mt-3">
-                Unblock Successfully!
+                {renderTitle().title}
               </h2>
               <p className="mt-2 text-center text-sm text-[#666666] max-w-[339px]">
-                Site has been unblocked successfully!
+                {renderTitle().message}
               </p>
               <button
                 onClick={onClose}

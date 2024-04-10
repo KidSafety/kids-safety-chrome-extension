@@ -3,30 +3,49 @@ import { useMutation } from "@tanstack/react-query"
 import Alert from "~components/Icons/Alert"
 import Cross from "~components/Icons/Cross"
 import blackLinkService from "~lib/blacklink/BlackLinkService"
+import whiteListService from "~lib/blacklink/WhiteListService"
+import type { IDialogMode } from "~lib/types/blacklist"
 
 interface IUnlockWebsiteModelProps {
+  mode: IDialogMode
   url: string
   onClose: () => void
   onConfrim: () => void
 }
 
 function UnlockWebsiteModel({
+  mode,
   url,
   onClose,
   onConfrim
 }: Readonly<IUnlockWebsiteModelProps>) {
-  const removeBlackLinkMutation = useMutation({
-    mutationFn: async (url: string) =>
-      blackLinkService.removeCustomBlacklist(url),
+  const updateLinkMutation = useMutation({
+    mutationFn: async (url: string) => {
+      if (mode === "whitelist") {
+        return whiteListService.addWhiteList(url)
+      } else if (mode === "block") {
+        return blackLinkService.addBlackLink(url)
+      }
+      return blackLinkService.removeCustomBlacklist(url)
+    },
     onSuccess: () => {
       onConfrim()
     }
   })
 
-  const handleRemoveBlackLink = (url: string) => {
-    removeBlackLinkMutation.mutate(url)
+  const handleUpdateLink = (url: string) => {
+    updateLinkMutation.mutate(url)
   }
 
+  const renderTitle = () => {
+    let title = "Unlock"
+    if (mode === "whitelist") {
+      title = "Whitelist"
+    } else if (mode === "block") {
+      title = "Block"
+    }
+    return `Are you sure you want to ${title} the`
+  }
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -42,21 +61,21 @@ function UnlockWebsiteModel({
             {/* Body */}
             <div className="w-full flex justify-center items-center flex-col p-6 pt-2   ">
               <Alert />
-              <h2 className="text-[20px] font-semibold text-[#333333] text-center mt-3 max-w-[325px]">
-                Are you sure you want to unblock{" "}
-                <span className="text-[#1972F9]">{url}</span> site?
+              <h2 className="text-[20px] font-semibold text-[#333333] text-center mt-3 max-w-[360px]">
+                {renderTitle()}
+                <span className="text-[#1972F9] px-1">{url}</span> site?
               </h2>
             </div>
             <div className="flex justify-center items-center gap-4 px-6 pb-6">
               <button
-                disabled={removeBlackLinkMutation.isPending}
+                disabled={updateLinkMutation.isPending}
                 onClick={onClose}
                 className="w-[95px] h-[40px] flex justify-center items-center capitalize text-sm text-[#194494] border-[1px] border-[#194494] rounded-lg">
                 Cancel
               </button>
               <button
-                disabled={removeBlackLinkMutation.isPending}
-                onClick={() => handleRemoveBlackLink(url)}
+                disabled={updateLinkMutation.isPending}
+                onClick={() => handleUpdateLink(url)}
                 className="w-[95px] h-[40px] flex justify-center items-center capitalize text-sm text-white bg-[#194494] border-[1px] border-[#194494] rounded-lg">
                 Yes
               </button>
