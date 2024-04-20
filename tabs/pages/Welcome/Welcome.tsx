@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom"
 
+import SignInWithGoogleIcon from "~components/Welcome/SignInWithGoogle"
 import authService from "~lib/auth"
 
 function WelcomePage() {
@@ -39,11 +40,7 @@ function WelcomePage() {
                 KidGuard acts as a vigilant guardian, empowering parents and
                 schools to protect young users from harmful online content.
               </p>
-              <button
-                onClick={handleContinue}
-                className="bg-blue-600 text-white text-xl font-medium px-4 py-2 rounded-xl shadow">
-                Continue
-              </button>
+              <SignInWithGoogleIcon onClick={handleContinue} />
             </div>
           </header>
         </div>
