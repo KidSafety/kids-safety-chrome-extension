@@ -1,26 +1,61 @@
+import { useMutation } from "@tanstack/react-query"
 import React, { useState } from "react"
+import { toast } from "react-toastify"
 
 import Eye from "~components/Icons/Eye"
 import EyeCross from "~components/Icons/EyeCross"
+import authService from "~lib/auth"
 
-type Props = {}
-
-function ChangePassword({}: Props) {
+function ChangePassword() {
   const [hidePasswords, setHidePasswords] = useState({
     current: true,
     new: true,
     confirmNew: true
   })
+
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmNewPassword: ""
+  })
+
+  const chagePasswordMutation = useMutation({
+    mutationFn: async () => {
+      return authService.changePassword(
+        passwordData.currentPassword,
+        passwordData.newPassword
+      )
+    },
+    onSuccess: () => {
+      toast.success("Password changed successfully")
+    },
+    onError: (error) => {
+      console.error("Error changing password: ", error)
+      toast.error(error.message)
+    }
+  })
+
+  const handleChangePassword = () => {
+    console.log("passwordData", passwordData)
+    if (!passwordData?.currentPassword) return
+    else if (!passwordData?.newPassword) return
+    else if (!passwordData?.confirmNewPassword) return
+    else if (passwordData.newPassword !== passwordData.confirmNewPassword) {
+      toast.error("Passwords do not match")
+    } else {
+      chagePasswordMutation.mutate()
+    }
+  }
+
   return (
     <form
       onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
       }}
       className="mt-6 w-full">
-      <h3 className="text-[18px] text-[#333333] capitalize">Change Password</h3>
-      <p className="text-sm text-[#666666]">
-        Lorem ipsum dolor sit amet consectetur.
-      </p>
+      <h3 className="text-[18px] text-[#333333] capitalize">
+        Change Admin Password
+      </h3>
       <div className="border-b-[1px] w-full my-4 border-[#EDECEF]" />
       <div className="flex justify-start items-center">
         <label
@@ -35,6 +70,14 @@ function ChangePassword({}: Props) {
             name="currentPassword"
             type={hidePasswords?.current ? "password" : "text"}
             className="w-[280px] h-full rounded-md border-[1px] border-[#BECAE0] pl-3 pr-8"
+            onChange={(e) =>
+              setPasswordData((prev) => {
+                return {
+                  ...prev,
+                  currentPassword: e.target.value
+                }
+              })
+            }
           />
           <button
             type="button"
@@ -62,6 +105,14 @@ function ChangePassword({}: Props) {
             name="newPassword"
             type={hidePasswords?.new ? "password" : "text"}
             className="w-[280px] h-full rounded-md border-[1px] border-[#BECAE0] pl-3 pr-8"
+            onChange={(e) =>
+              setPasswordData((prev) => {
+                return {
+                  ...prev,
+                  newPassword: e.target.value
+                }
+              })
+            }
           />
           <button
             type="button"
@@ -89,6 +140,14 @@ function ChangePassword({}: Props) {
             name="confirmNewPassword"
             type={hidePasswords?.confirmNew ? "password" : "text"}
             className="w-[280px] h-full rounded-md border-[1px] border-[#BECAE0] pl-3 pr-8"
+            onChange={(e) =>
+              setPasswordData((prev) => {
+                return {
+                  ...prev,
+                  confirmNewPassword: e.target.value
+                }
+              })
+            }
           />
           <button
             type="button"
@@ -105,12 +164,20 @@ function ChangePassword({}: Props) {
       </div>
       <div className="flex justify-start items-center gap-4 mt-8">
         <button
-          type="submit"
+          onClick={handleChangePassword}
+          disabled={chagePasswordMutation.isPending}
           className="px-4 h-[40px] flex justify-center items-center capitalize text-[16px] font-semibold text-white bg-[#194494] border-[1px] border-[#194494] rounded-lg">
           Save Changes
         </button>
         <button
-          type="button"
+          onClick={() => {
+            setPasswordData({
+              currentPassword: "",
+              newPassword: "",
+              confirmNewPassword: ""
+            })
+          }}
+          disabled={chagePasswordMutation.isPending}
           className="px-4 h-[40px] flex justify-center items-center capitalize text-[16px] font-semibold text-[#194494] bg-white border-[1px] border-[#194494] rounded-lg">
           Cancel
         </button>

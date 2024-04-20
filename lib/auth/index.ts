@@ -29,6 +29,21 @@ export class AuthService {
     const user = await this.getUser()
     return user !== null
   }
+
+  async changePassword(currentPassword: string, newPassword: string) {
+    return await fetch(`${BASE_URL}/api/v1/auth/change-password`, {
+      method: "POST",
+      body: JSON.stringify({ currentPassword, newPassword }),
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(async (res) => {
+      if (res.ok) return await res.json()
+      const error = res.statusText
+      throw new Error(`Error changing password ${JSON.stringify(error)}`)
+    })
+  }
 }
 
 const authService = new AuthService()
