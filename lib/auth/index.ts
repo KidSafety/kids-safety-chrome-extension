@@ -19,9 +19,9 @@ export class AuthService {
         "Content-Type": "application/json"
       }
     }).then(async (res) => {
-      if (res.ok) return await res.json()
-      const error = res.statusText
-      throw new Error(`Error generating user ${JSON.stringify(error)}`)
+      const json = await res.json()
+      if (res.ok) return json
+      if (json.message) throw new Error(json.message)
     })
   }
 
@@ -39,9 +39,9 @@ export class AuthService {
         "Content-Type": "application/json"
       }
     }).then(async (res) => {
-      if (res.ok) return await res.json()
-      const error = res.statusText
-      throw new Error(`Error changing password ${JSON.stringify(error)}`)
+      const json = await res.json()
+      if (res.ok) return json
+      if (json.message) throw new Error(json.message)
     })
   }
 }

@@ -19,6 +19,14 @@ function ChangePassword() {
     confirmNewPassword: ""
   })
 
+  const resetForm = () => {
+    setPasswordData({
+      currentPassword: "",
+      newPassword: "",
+      confirmNewPassword: ""
+    })
+  }
+
   const chagePasswordMutation = useMutation({
     mutationFn: async () => {
       return authService.changePassword(
@@ -28,6 +36,7 @@ function ChangePassword() {
     },
     onSuccess: () => {
       toast.success("Password changed successfully")
+      resetForm()
     },
     onError: (error) => {
       console.error("Error changing password: ", error)
@@ -70,6 +79,7 @@ function ChangePassword() {
             name="currentPassword"
             type={hidePasswords?.current ? "password" : "text"}
             className="w-[280px] h-full rounded-md border-[1px] border-[#BECAE0] pl-3 pr-8"
+            value={passwordData?.currentPassword}
             onChange={(e) =>
               setPasswordData((prev) => {
                 return {
@@ -105,6 +115,7 @@ function ChangePassword() {
             name="newPassword"
             type={hidePasswords?.new ? "password" : "text"}
             className="w-[280px] h-full rounded-md border-[1px] border-[#BECAE0] pl-3 pr-8"
+            value={passwordData?.newPassword}
             onChange={(e) =>
               setPasswordData((prev) => {
                 return {
@@ -140,6 +151,7 @@ function ChangePassword() {
             name="confirmNewPassword"
             type={hidePasswords?.confirmNew ? "password" : "text"}
             className="w-[280px] h-full rounded-md border-[1px] border-[#BECAE0] pl-3 pr-8"
+            value={passwordData?.confirmNewPassword}
             onChange={(e) =>
               setPasswordData((prev) => {
                 return {
@@ -170,13 +182,8 @@ function ChangePassword() {
           Save Changes
         </button>
         <button
-          onClick={() => {
-            setPasswordData({
-              currentPassword: "",
-              newPassword: "",
-              confirmNewPassword: ""
-            })
-          }}
+          type="button"
+          onClick={() => resetForm()}
           disabled={chagePasswordMutation.isPending}
           className="px-4 h-[40px] flex justify-center items-center capitalize text-[16px] font-semibold text-[#194494] bg-white border-[1px] border-[#194494] rounded-lg">
           Cancel
