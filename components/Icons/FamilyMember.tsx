@@ -1,4 +1,9 @@
-export default function FamilyMemberIcon({ pathname }: { pathname: string }) {
+interface IFamilyMemberIconProps {
+  pathname?: string
+}
+export default function FamilyMemberIcon({
+  pathname
+}: Readonly<IFamilyMemberIconProps>) {
   return (
     <svg
       width="14"

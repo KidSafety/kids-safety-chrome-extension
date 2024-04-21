@@ -17,6 +17,7 @@
     "@types/fbemitter": "^2.0.35",
     "@types/lodash": "^4.14.202",
     "dayjs": "^1.11.10",
+    "email-validator": "^2.0.4",
     "fbemitter": "^3.0.0",
     "lodash": "^4.17.21",
     "plasmo": "0.84.2",
