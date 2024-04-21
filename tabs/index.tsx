@@ -12,15 +12,15 @@ import PageRoot from "./pages/PageRoot"
 export default function NewTabRouter() {
   const [signIn, setSignIn] = useState(false)
 
-  useEffect(() => {
-    authService.getUser().then((user) => {
-      if (user) {
-        setSignIn(true)
-      } else {
-        setSignIn(false)
-      }
-    })
-  }, [])
+  // useEffect(() => {
+  //   authService.getUser().then((user) => {
+  //     if (user) {
+  //       setSignIn(true)
+  //     } else {
+  //       setSignIn(false)
+  //     }
+  //   })
+  // }, [])
 
   const renderContent = () => {
     if (signIn) return <PageRoot />
