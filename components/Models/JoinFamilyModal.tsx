@@ -1,7 +1,9 @@
+import { useMutation } from "@tanstack/react-query"
 import * as EmailValidator from "email-validator"
 import { useState } from "react"
 
 import Cross from "~components/Icons/Cross"
+import familyService from "~lib/family/FamilyService"
 
 interface IJoinFamilyModalProps {
   onClose: () => void
@@ -12,13 +14,25 @@ export default function JoinFamilyModal({
   const [email, setEmail] = useState("")
   const [errorMsg, setErrorMsg] = useState("")
 
+  const joinMutation = useMutation({
+    mutationFn: async () => {
+      return familyService.joinByEmail(email)
+    },
+    onSuccess: () => {
+      onClose()
+      // alert success
+      console.log("joined")
+      // close tab
+    }
+  })
+
   const onJoin = () => {
     if (!email) {
       setErrorMsg("Please enter a valid email")
     } else if (!EmailValidator.validate(email)) {
       setErrorMsg("Please enter a valid email")
     } else {
-      onClose()
+      joinMutation.mutate()
     }
   }
   return (
