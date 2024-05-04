@@ -44,6 +44,21 @@ export class AuthService {
       if (json.message) throw new Error(json.message)
     })
   }
+
+  async joinByEmail(email: string) {
+    return await fetch(`${BASE_URL}/api/v1/auth/join`, {
+      method: "POST",
+      body: JSON.stringify({ email }),
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(async (res) => {
+      const json = await res.json()
+      if (res.ok) return json
+      if (json.message) throw new Error(json.message)
+    })
+  }
 }
 
 const authService = new AuthService()
