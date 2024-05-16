@@ -1,33 +1,22 @@
-This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
+`KidGuard Chrome Extension`
 
-## Getting Started
+Problem Addressed:
+This extension serves as a comprehensive solution for parents and schools to monitor online activities, tracking traffic, and preventing access to harmful websites.
 
-First, run the development server:
+Use Case:
+When the extension detects a harmful website, the offending tab is automatically closed. In its place, a new tab opens, informing the user about the nature of the website and advising them to safely close the tab and continue browsing.
 
-```bash
-pnpm dev
-# or
-npm run dev
-```
+Core Features:
+- Default blocking of a predefined set of harmful websites.
+- Parental control to Add/Remove/Whitelist websites.
+- Tracking and monitoring the web history of children.
 
-Open your browser and load the appropriate development build. For example, if you are developing for the chrome browser, using manifest v3, use: `build/chrome-mv3-dev`.
+Security Measures:
+- Exclusive access for parents via a passcode-protected dashboard.
+- Alerts for parents if the child attempts to remove/turn off the extension or repeatedly accesses the same harmful website.
 
-You can start editing the popup by modifying `popup.tsx`. It should auto-update as you make changes. To add an options page, simply add a `options.tsx` file to the root of the project, with a react component default exported. Likewise to add a content page, add a `content.ts` file to the root of the project, importing some module and do some logic, then reload the extension on your browser.
+User Authentication:
+- Google login required for both parents and children to use the extension.
+- During the first login, users choose whether the account is designated as a parent or child.
 
-For further guidance, [visit our Documentation](https://docs.plasmo.com/)
-
-## Making production build
-
-Run the following:
-
-```bash
-pnpm build
-# or
-npm run build
-```
-
-This should create a production bundle for your extension, ready to be zipped and published to the stores.
-
-## Submit to the webstores
-
-The easiest way to deploy your Plasmo extension is to use the built-in [bpp](https://bpp.browser.market) GitHub action. Prior to using this action however, make sure to build your extension and upload the first version to the store to establish the basic credentials. Then, simply follow [this setup instruction](https://docs.plasmo.com/framework/workflows/submit) and you should be on your way for automated submission!
+Feel free to contribute to help kids safe on the Internet
