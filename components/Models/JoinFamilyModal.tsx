@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
 import * as EmailValidator from "email-validator"
 import { useState } from "react"
+import { toast } from "react-toastify"
 
 import Cross from "~components/Icons/Cross"
 import familyService from "~lib/family/FamilyService"
@@ -14,15 +15,18 @@ export default function JoinFamilyModal({
   const [email, setEmail] = useState("")
   const [errorMsg, setErrorMsg] = useState("")
 
+  // const notify = () => toast("You are set!")
+
   const joinMutation = useMutation({
     mutationFn: async () => {
       return familyService.joinByEmail(email)
     },
     onSuccess: () => {
       onClose()
-      // alert success
-      console.log("joined")
-      // close tab
+      // notify()
+    },
+    onError: (error) => {
+      setErrorMsg(error.message)
     }
   })
 

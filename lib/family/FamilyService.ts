@@ -1,10 +1,10 @@
 import { BASE_URL } from "~lib/env"
 
 export class FamilyService {
-  async joinByEmail(email: string) {
+  async joinByEmail(parentEmail: string) {
     return await fetch(`${BASE_URL}/api/v1/family/join`, {
       method: "POST",
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ parentEmail }),
       credentials: "include",
       headers: {
         "Content-Type": "application/json"
